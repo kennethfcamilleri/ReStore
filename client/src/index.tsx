@@ -5,13 +5,16 @@ import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from './app/router/BrowserRouter';
 import myHistory from './app/history/history';
+import { StoreProvider } from './app/context/StoreContext';
 
 export const history = myHistory;
 
 ReactDOM.render(
   <React.StrictMode>
       <BrowserRouter history={history}>
-        <App />
+        <StoreProvider>
+          <App />
+        </StoreProvider>
       </BrowserRouter> 
   </React.StrictMode>,
   document.getElementById('root')
