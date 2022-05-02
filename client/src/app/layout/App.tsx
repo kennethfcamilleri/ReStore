@@ -21,6 +21,7 @@ import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import RequireAuth from "./RequireAuth";
+import Orders from "../../features/orders/Orders";
 
 function App() {
 
@@ -81,6 +82,14 @@ function App() {
             element={
               <RequireAuth>
                 <CheckoutPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <RequireAuth>
+                <Orders />
               </RequireAuth>
             }
           />
