@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import Catalog from "../../features/catalog/Catalog";
 import Header from "./Header";
 import CssBaseline from '@mui/material/CssBaseline';
 import { Container, createTheme, ThemeProvider } from "@mui/material";
@@ -22,6 +21,8 @@ import { fetchCurrentUser } from "../../features/account/accountSlice";
 import RequireAuth from "./RequireAuth";
 import Orders from "../../features/orders/Orders";
 import CheckoutWrapper from "../../features/checkout/CheckoutWrapper";
+import Catalog from "../../features/catalog/Catalog";
+import InventoryPage from "../../features/admin/InventoryPage";
 
 function App() {
 
@@ -64,11 +65,9 @@ function App() {
       <ToastContainer position='bottom-right' hideProgressBar />
       <CssBaseline />
       <Header darkMode={darkMode} handleThemeChange={handleThemeChange}  />
-      <Routes>
-        <Route path='/' element={<HomePage />} />
-      </Routes>
       <Container sx={{ mt: 4 }}>
         <Routes>
+          <Route index element={<HomePage />} />
           <Route path='catalog' element={<Catalog />} />
           <Route path="catalog">
             <Route path=":id" element={<ProductDetails />} />
@@ -80,7 +79,15 @@ function App() {
           <Route path='server-error' element={<ServerError />} />
           <Route path='basket' element={<BasketPage />} />
           <Route
-            path="/checkout"
+            path="inventory"
+            element={
+              <RequireAuth roles={['Admin']}>
+                <InventoryPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="checkout"
             element={
               <RequireAuth>
                 <CheckoutWrapper />
@@ -88,7 +95,7 @@ function App() {
             }
           />
           <Route
-            path="/orders"
+            path="orders"
             element={
               <RequireAuth>
                 <Orders />

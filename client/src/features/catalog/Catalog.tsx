@@ -1,11 +1,12 @@
 import { Grid, Paper } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import AppPagination from "../../app/components/AppPagination";
 import CheckBoxButtons from "../../app/components/CheckBoxButtons";
 import RadioButtonGroup from "../../app/components/RadioButtonGroup";
+import useProducts from "../../app/hooks/useProducts";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { fetchFilters, fetchProductsAsync, productSelectors, setPageNumber, setProductParams } from "./catalogSlice";
+import { setPageNumber, setProductParams } from "./catalogSlice";
 import ProductList from "./ProductList";
 import ProductSearch from "./ProductSearch";
 
@@ -15,17 +16,9 @@ const sortOptions = [
     {value: 'price', label: 'Price - Low to high'}
 ]
 export default function Catalog() {
-    const products = useAppSelector(productSelectors.selectAll);
+    const {products, brands, types, filtersLoaded, metaData} = useProducts();
     const dispatch = useAppDispatch();
-    const {productsLoaded, filtersLoaded, brands, types, productParams, metaData} = useAppSelector(state => state.catalog)
-
-    useEffect(() => {
-        if (!productsLoaded) dispatch(fetchProductsAsync());
-    }, [productsLoaded, dispatch])
-
-    useEffect(() => {
-        if (!filtersLoaded) dispatch(fetchFilters());
-    }, [dispatch, filtersLoaded])
+    const {productParams} = useAppSelector(state => state.catalog)
   
     // when using [] as dependency the useEffect will only load once in the beginnning.
   
